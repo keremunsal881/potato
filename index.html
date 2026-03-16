@@ -8,102 +8,146 @@
         :root {
             --brawl-yellow: #FFCC00;
             --brawl-blue: #0066FF;
-            --brawl-dark: #1a1a1a;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--brawl-dark);
+            font-family: 'Arial Black', sans-serif;
+            background-color: var(--dark-bg);
             color: white;
             margin: 0;
-            padding: 20px;
+            text-align: center;
         }
 
         header {
-            text-align: center;
-            padding: 40px;
-            background: linear-gradient(45deg, #ff8c00, #ff0055);
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background: linear-gradient(180deg, #ffcc00 0%, #ff9900 100%);
+            padding: 30px;
+            color: #000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .search-container {
+            margin: 20px;
+        }
+
+        input {
+            padding: 12px;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 25px;
+            border: none;
+            font-size: 16px;
         }
 
         .container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 20px;
+            padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .brawler-card {
-            background: #333;
-            border: 4px solid var(--brawl-yellow);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s ease;
+            background: var(--card-bg);
+            border: 3px solid #333;
+            border-radius: 15px;
+            padding: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .brawler-card:hover {
-            transform: scale(1.05);
-            background: #444;
+            transform: translateY(-10px);
+            border-color: var(--brawl-yellow);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
         }
 
-        .brawler-img {
-            width: 150px;
-            height: 150px;
-            background: #555;
-            border-radius: 50%;
-            margin-bottom: 15px;
-            object-fit: cover;
+        .brawler-card img {
+            width: 100%;
+            border-radius: 10px;
+            background: #2a2a2a;
         }
 
-        .rarity {
-            font-weight: bold;
+        .brawler-name {
+            margin-top: 10px;
+            font-size: 1.1em;
             text-transform: uppercase;
-            font-size: 0.8em;
-            padding: 5px 10px;
-            border-radius: 5px;
         }
 
-        .legendary { color: #fff; background: #ffbb00; }
-        .mythic { color: #fff; background: #ff0044; }
-        .epic { color: #fff; background: #b113ff; }
-
-        h2 { margin: 10px 0; color: var(--brawl-yellow); }
-        p { font-size: 0.9em; color: #ccc; }
+        footer {
+            padding: 20px;
+            color: #666;
+            font-size: 0.8em;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>BRAWL STARS KARAKTERLERİ</h1>
-    <p>Favori savaşçını seç ve özelliklerini öğren!</p>
+    <h1>BRAWL STARS REHBERİ</h1>
+    <p>Tüm Karakterler Tek Bir Yerde!</p>
 </header>
 
-<div class="container">
-    <div class="brawler-card">
-        <div class="brawler-img" style="background-image: url('https://placehold.co/150x150/ffbb00/white?text=Leon'); background-size: cover;"></div>
-        <span class="rarity legendary">Efsanevi</span>
-        <h2>Leon</h2>
-        <p>Gizlilik ustası! Görünmezlik pelerini ile rakiplerine fark ettirmeden yaklaşır.</p>
-    </div>
-
-    <div class="brawler-card">
-        <div class="brawler-img" style="background-image: url('https://placehold.co/150x150/ff0044/white?text=Mortis'); background-size: cover;"></div>
-        <span class="rarity mythic">Gizemli</span>
-        <h2>Mortis</h2>
-        <p>Hızlı hamleleri ve küreği ile savaş alanında adeta dans eder.</p>
-    </div>
-
-    <div class="brawler-card">
-        <div class="brawler-img" style="background-image: url('https://placehold.co/150x150/ffbb00/white?text=Spike'); background-size: cover;"></div>
-        <span class="rarity legendary">Efsanevi</span>
-        <h2>Spike</h2>
-        <p>Dikenli bombalarıyla alan kontrolü sağlayan sevimli ama tehlikeli kaktüs.</p>
-    </div>
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Karakter ara... (Örn: Leon)" onkeyup="filterBrawlers()">
 </div>
+
+<div class="container" id="brawlerContainer">
+    <p>Karakterler yükleniyor...</p>
+</div>
+
+<footer>
+    Bu site bir hayran çalışmasıdır. Brawl Stars, Supercell'in ticari markasıdır.
+</footer>
+
+<script>
+    // Karakter verilerini çeken fonksiyon
+    async function fetchBrawlers() {
+        try {
+            // BrawlAPI üzerinden güncel verileri çekiyoruz
+            const response = await fetch('https://api.brawlapi.com/v1/brawlers');
+            const data = await response.json();
+            const container = document.getElementById('brawlerContainer');
+            container.innerHTML = '';
+
+            data.list.forEach(brawler => {
+                const card = document.createElement('div');
+                card.className = 'brawler-card';
+                card.innerHTML = `
+                    <img src="${brawler.imageUrl}" alt="${brawler.name}">
+                    <div class="brawler-name">${brawler.name}</div>
+                    <div style="color: ${brawler.rarity.color}; font-size: 0.8em;">${brawler.rarity.name}</div>
+                `;
+                container.appendChild(card);
+            });
+        } catch (error) {
+            console.error("Hata:", error);
+            document.getElementById('brawlerContainer').innerHTML = "Karakterler yüklenirken bir hata oluştu.";
+        }
+    }
+
+    // Arama fonksiyonu
+    function filterBrawlers() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('brawler-card');
+
+        for (let i = 0; i < cards.length; i++) {
+            let name = cards[i].querySelector('.brawler-name').innerText.toLowerCase();
+            if (name.includes(input)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+
+    // Sayfa açıldığında karakterleri getir
+    fetchBrawlers();
+</script>
 
 </body>
 </html>
