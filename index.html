@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brawl Stars Karakter Arşivi</title>
+    <style>
+        :root {
+            --brawl-yellow: #FFCC00;
+            --brawl-blue: #0066FF;
+            --brawl-dark: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--brawl-dark);
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(45deg, #ff8c00, #ff0055);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .brawler-card {
+            background: #333;
+            border: 4px solid var(--brawl-yellow);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .brawler-card:hover {
+            transform: scale(1.05);
+            background: #444;
+        }
+
+        .brawler-img {
+            width: 150px;
+            height: 150px;
+            background: #555;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .rarity {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .legendary { color: #fff; background: #ffbb00; }
+        .mythic { color: #fff; background: #ff0044; }
+        .epic { color: #fff; background: #b113ff; }
+
+        h2 { margin: 10px 0; color: var(--brawl-yellow); }
+        p { font-size: 0.9em; color: #ccc; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BRAWL STARS KARAKTERLERİ</h1>
+    <p>Favori savaşçını seç ve özelliklerini öğren!</p>
+</header>
+
+<div class="container">
+    <div class="brawler-card">
+        <div class="brawler-img" style="background-image: url('https://placehold.co/150x150/ffbb00/white?text=Leon'); background-size: cover;"></div>
+        <span class="rarity legendary">Efsanevi</span>
+        <h2>Leon</h2>
+        <p>Gizlilik ustası! Görünmezlik pelerini ile rakiplerine fark ettirmeden yaklaşır.</p>
+    </div>
+
+    <div class="brawler-card">
+        <div class="brawler-img" style="background-image: url('https://placehold.co/150x150/ff0044/white?text=Mortis'); background-size: cover;"></div>
+        <span class="rarity mythic">Gizemli</span>
+        <h2>Mortis</h2>
+        <p>Hızlı hamleleri ve küreği ile savaş alanında adeta dans eder.</p>
+    </div>
+
+    <div class="brawler-card">
+        <div class="brawler-img" style="background-image: url('https://placehold.co/150x150/ffbb00/white?text=Spike'); background-size: cover;"></div>
+        <span class="rarity legendary">Efsanevi</span>
+        <h2>Spike</h2>
+        <p>Dikenli bombalarıyla alan kontrolü sağlayan sevimli ama tehlikeli kaktüs.</p>
+    </div>
+</div>
+
+</body>
+</html>
